@@ -7,5 +7,6 @@ from api import views
 
 
 urlpatterns = [
-    url(r'^api/buy_data', views.buy_data),
+    url(r'^api/buy_data', views.cooperate_data),
+    url(r'^api/login', views.browser_login)
 ]
