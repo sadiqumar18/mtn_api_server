@@ -33,7 +33,7 @@ def login(number):
 
 
 def subscribe(recipient_name, recipient_number):
-
+    print(recipient_number)
     """ Goes straight to the buybundles page """
 
     try:
