@@ -13,7 +13,7 @@ from .gifting import login, subscribe
 @api_view(['GET'])
 def browser_login(request):
     login(number="08165383806s")
-    return JsonResponse({'message': 'Tutorials were deleted successfully!'})
+    return JsonResponse({'message': 'successfully!'})
 
 
 @api_view(['post'])
@@ -22,7 +22,7 @@ def cooperate_data(request):
     # subscribe(json_body["recipient_name"], json_body["recipient_number"])
     x = threading.Thread(target=subscribe, args=(json_body["recipient_name"], json_body["recipient_number"]))
     x.start()
-    return JsonResponse({'message': 'Tutorials were deleted successfully!'})
+    return JsonResponse({'message': 'successfully!'})
 
 
 def hello(test):
