@@ -7,7 +7,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 
-from .gifting import login, subscribe, subscribe_sme
+from .gifting import login, subscribe
 
 
 @api_view(['GET'])
