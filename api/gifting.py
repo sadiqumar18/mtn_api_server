@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.utils import ChromeType
 
 
 
@@ -12,7 +11,8 @@ options = Options()
 options.headless = False
 #options.add_argument('--no-sandbox')
 #options.add_argument("--remote-debugging-port=9222")
-driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), options=options)
+options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome('./chromedriver', options=options)
 
 
 # number would be collected from user input
