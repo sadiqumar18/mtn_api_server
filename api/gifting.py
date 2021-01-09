@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.options import Options
 options = Options()
 options.headless = False
 options.add_argument('--no-sandbox')
-options.add_argument("--remote-debugging-port=9222")
+#options.add_argument("--remote-debugging-port=9222")
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
