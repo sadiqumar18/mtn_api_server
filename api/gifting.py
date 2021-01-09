@@ -11,7 +11,7 @@ options = Options()
 options.headless = False
 #options.add_argument('--no-sandbox')
 #options.add_argument("--remote-debugging-port=9222")
-driver = webdriver.Chrome('./chromedriver.exe', options=options)
+driver = webdriver.Chrome('./chromedriver', options=options)
 
 
 # number would be collected from user input
