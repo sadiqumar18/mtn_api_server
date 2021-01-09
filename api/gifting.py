@@ -7,7 +7,8 @@ from selenium.webdriver.chrome.options import Options
 
 
 options = Options()
-options.headless = False
+options.headless = True
+options.add_argument('--no-sandbox')
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 

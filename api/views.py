@@ -7,12 +7,12 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 
-from .gifting import login, subscribe
+from .gifting import login, subscribe, subscribe_sme
 
 
 @api_view(['GET'])
 def browser_login(request):
-    login(number="08165383806s")
+    login(number="08165383806")
     return JsonResponse({'message': 'successfully!'})
 
 
