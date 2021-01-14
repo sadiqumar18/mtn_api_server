@@ -98,9 +98,9 @@ def subscribe(recipient_name, recipient_number):
 
         # filling recipient numbers and confirmation process
 
-        time.sleep(1)
+        time.sleep(2)
         driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(recipient_number)
-        time.sleep(1)
+        time.sleep(2)
         driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
         time.sleep(5)  # confirm button
