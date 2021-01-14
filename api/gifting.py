@@ -103,7 +103,7 @@ def subscribe(recipient_name, recipient_number):
         time.sleep(1)
         driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
-        time.sleep(2)  # confirm button
+        time.sleep(5)  # confirm button
         driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
 
