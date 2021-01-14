@@ -4,13 +4,12 @@ from selenium.webdriver.common.keys import Keys
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-
-
+import threading
 
 options = Options()
 options.headless = False
 options.add_argument('--no-sandbox')
-#options.add_argument("--remote-debugging-port=9222")
+# options.add_argument("--remote-debugging-port=9222")
 options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
@@ -20,12 +19,12 @@ def login(number):
     try:
         # automated website of choice
         driver.get("https://mymtn.com.ng/")
-        #time.sleep(10)
+        # time.sleep(10)
 
         # login
         driver.find_element_by_xpath("//*[@id='mat-input-0']").send_keys(number)
         driver.find_element_by_xpath("//*[@id='label']").click()
-        #time.sleep(60)
+        # time.sleep(60)
 
         return "Login Successful"
 
@@ -49,7 +48,6 @@ def subscribe(recipient_name, recipient_number):
 
     except:
         print("Poor Network Connection")
-
 
     """ Chooses the cooperate data gifting plan and fills the receipient's details """
 
@@ -105,20 +103,25 @@ def subscribe(recipient_name, recipient_number):
         time.sleep(1)
         driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
-        time.sleep(1.5)   # confirm button
+        time.sleep(2)  # confirm button
         driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+
 
     except:
         print("Poor Internet Connection")
 
-def countdown(t):
-    '''This function counts down after 5mins and click the website inorder to prevent it from logging out'''
 
-    while t:  #countdown loop
-        mins, secs = divmod(t, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
-        time.sleep(1)
-        t -= 1
-    driver.find_element_by_xpath('//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  #element it clicks
+def countdown():
+    '''This function counts down after 5mins and click the website inorder to prevent it from logging out'''
+    print("here")
+    driver.find_element_by_xpath(
+        '//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  # element it clicks
+
+
 # PLEASE NOTE: For the sake of this script, user variables are pre-defined
 
+
+def setInterval(func, minutes):
+    e = threading.Event()
+    while not e.wait(minutes):
+        func()
