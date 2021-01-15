@@ -19,12 +19,12 @@ def browser_login(request):
 @api_view(['post'])
 def cooperate_data(request):
     json_body = json.loads(request.body)
-    # subscribe(json_body["recipient_name"], json_body["recipient_number"])
-    x = threading.Thread(target=subscribe, args=(json_body["recipient_name"], json_body["recipient_number"]))
+    x = threading.Thread(target=subscribe,
+                         args=(json_body["name"], json_body["number"], json_body["bundle"], json_body["reference"]))
     x.start()
+
     return JsonResponse({'message': 'successfully!'})
 
 
 def hello(test):
-
     print(test)

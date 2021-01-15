@@ -1,3 +1,6 @@
+import json
+
+import requests
 from selenium.webdriver import ActionChains
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -35,8 +38,7 @@ def login(number):
 # OTP Verification has to be done manually.
 
 
-def subscribe(recipient_name, recipient_number):
-    print(recipient_number)
+def subscribe(name, number, bundle, reference):
     """ Goes straight to the buybundles page """
 
     try:
@@ -47,7 +49,7 @@ def subscribe(recipient_name, recipient_number):
         time.sleep(0.5)
 
     except:
-        print("Poor Network Connection")
+        print("failed to load data bundle page")
 
     """ Chooses the cooperate data gifting plan and fills the receipient's details """
 
@@ -61,54 +63,28 @@ def subscribe(recipient_name, recipient_number):
         driver.find_element_by_xpath(
             "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
         time.sleep(0.5)
-        driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(recipient_name)
+        driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
 
         # validity for 30days
         time.sleep(1)
         driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
         time.sleep(1)
 
-        # data type (50MB)
-        element = driver.find_element_by_xpath('//*[@id="mat-radio-9"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
+        element = driver.find_element_by_xpath(data_switcher(bundle))
 
-        '''LIST OF DATA BUNDLES
-        # 500 MB: element = driver.find_element_by_xpath('//*[@id="mat-radio-12"]/label/div[1]')
         driver.execute_script("arguments[0].click();", element)
-
-        # 1GB: element = driver.find_element_by_xpath('//*[@id="mat-radio-13"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
-
-        # 2GB: element = driver.find_element_by_xpath('//*[@id="mat-radio-14"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
-
-        # 3GB: element = driver.find_element_by_xpath('//*[@id="mat-radio-15"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
-
-        # 5GB: element = driver.find_element_by_xpath('//*[@id="mat-radio-16"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
-
-        # OTHERS: element = driver.find_element_by_xpath('//*[@id="mat-radio-6"]/label/div[1]')
-        driver.execute_script("arguments[0].click();", element)
-
-        if option == "Others:
-            amount = input("Enter data amount in GB: ")
-            driver.find_element_by_xpath(//*[@id="mat-input-3"]).sendkeys(amount)
-        '''
 
         # filling recipient numbers and confirmation process
 
         time.sleep(2)
-        driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(recipient_number)
+        driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
         time.sleep(2)
         driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
         time.sleep(5)  # confirm button
         driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
-
-
     except:
-        print("Poor Internet Connection")
+        print("failed to send")
 
 
 def countdown():
@@ -119,6 +95,21 @@ def countdown():
 
 
 # PLEASE NOTE: For the sake of this script, user variables are pre-defined
+
+
+def data_switcher(bundle):
+    switcher = {
+        "MTN-1GB": '"mat-radio-13"',
+        "MTN-2GB": '"mat-radio-14"',
+        "MTN-3GB": '"mat-radio-15"',
+        "MTN-5GB": '"mat-radio-16"'
+    }
+
+    return '//*[@id={data_string}]/label/div[1]'.format(data_string=switcher[bundle])
+
+
+def sendWebhook(url, data):
+    requests.post(url, data=json.dumps(data))
 
 
 def setInterval(func, minutes):

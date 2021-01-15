@@ -6,17 +6,19 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class TestClass():
 
+    driver = None
+
     def __init__(self):
         options = Options()
         options.headless = False
-        self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     def buy_cooperate_data(self, recipient_name, recipient_number):
         try:
-            self.driver.get("https://mymtn.com.ng/buybundles")
+            driver.get("https://mymtn.com.ng/buybundles")
             time.sleep(2.5)
 
-            self.driver.find_element_by_xpath(
+            driver.find_element_by_xpath(
                 '//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
             time.sleep(0.5)
 
@@ -25,24 +27,24 @@ class TestClass():
 
         try:
             time.sleep(0.5)
-            self.driver.find_element_by_xpath(
+            driver.find_element_by_xpath(
                 "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[1]/div/div/div/a[8]").click()
             time.sleep(0.5)
 
             # recipient name
-            self.driver.find_element_by_xpath(
+            driver.find_element_by_xpath(
                 "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
             time.sleep(0.5)
-            self.driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(recipient_name)
+            driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(recipient_name)
 
             # validity for 30days
             time.sleep(1)
-            self.driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
+            driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
             time.sleep(1)
 
             # data type (50MB)
             element = self.driver.find_element_by_xpath('//*[@id="mat-radio-9"]/label/div[1]')
-            self.driver.execute_script("arguments[0].click();", element)
+            driver.execute_script("arguments[0].click();", element)
 
             '''LIST OF DATA BUNDLES
             # 500 MB: element = driver.find_element_by_xpath('//*[@id="mat-radio-12"]/label/div[1]')
