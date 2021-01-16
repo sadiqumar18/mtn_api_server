@@ -42,7 +42,7 @@ def login(number):
 def subscribe(name, number, bundle, reference):
   """ Goes straight to the buybundles page """
 
-  time.sleep(10)
+
 
   try:
     driver.get("https://mymtn.com.ng/buybundles")
@@ -65,7 +65,7 @@ def subscribe(name, number, bundle, reference):
     # recipient name
     driver.find_element_by_xpath(
       "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
-    time.sleep(0.5)
+    time.sleep(4)
     driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
 
     # validity for 30days
