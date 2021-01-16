@@ -65,9 +65,9 @@ def subscribe(name, number, bundle, reference):
     # recipient name
     driver.find_element_by_xpath(
       "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
-    time.sleep(4)
-    driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
 
+    driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
+    time.sleep(4)
     # validity for 30days
     time.sleep(1)
     driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
