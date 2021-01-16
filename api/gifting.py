@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import requests
@@ -19,100 +20,122 @@ driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # number would be collected from user input
 def login(number):
-    try:
-        # automated website of choice
-        driver.get("https://mymtn.com.ng/")
-        # time.sleep(10)
+  try:
+    # automated website of choice
+    driver.get("https://mymtn.com.ng/")
+    # time.sleep(10)
 
-        # login
-        driver.find_element_by_xpath("//*[@id='mat-input-0']").send_keys(number)
-        driver.find_element_by_xpath("//*[@id='label']").click()
-        # time.sleep(60)
+    # login
+    driver.find_element_by_xpath("//*[@id='mat-input-0']").send_keys(number)
+    driver.find_element_by_xpath("//*[@id='label']").click()
+    # time.sleep(60)
 
-        return "Login Successful"
+    return "Login Successful"
 
-    except:
-        print("Poor internet connection")
+  except:
+    print("Poor internet connection")
 
 
 # OTP Verification has to be done manually.
 
 
 def subscribe(name, number, bundle, reference):
-    """ Goes straight to the buybundles page """
+  """ Goes straight to the buybundles page """
 
-    try:
-        driver.get("https://mymtn.com.ng/buybundles")
-        time.sleep(2.5)
+  time.sleep(10)
 
-        driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
-        time.sleep(0.5)
+  try:
+    driver.get("https://mymtn.com.ng/buybundles")
+    time.sleep(2.5)
 
-    except:
-        print("failed to load data bundle page")
+    driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
+    time.sleep(0.5)
 
-    """ Chooses the cooperate data gifting plan and fills the receipient's details """
+  except:
+    print("failed to load data bundle page")
 
-    # getting the bundle
-    try:
-        time.sleep(0.5)
-        driver.find_element_by_xpath("//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[1]/div/div/div/a[8]").click()
-        time.sleep(0.5)
+  """ Chooses the cooperate data gifting plan and fills the receipient's details """
 
-        # recipient name
-        driver.find_element_by_xpath(
-            "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
-        time.sleep(0.5)
-        driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
+  # getting the bundle
+  try:
+    time.sleep(0.5)
+    driver.find_element_by_xpath("//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[1]/div/div/div/a[8]").click()
+    time.sleep(0.5)
 
-        # validity for 30days
-        time.sleep(1)
-        driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
-        time.sleep(1)
+    # recipient name
+    driver.find_element_by_xpath(
+      "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
+    time.sleep(0.5)
+    driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
 
-        element = driver.find_element_by_xpath(data_switcher(bundle))
+    # validity for 30days
+    time.sleep(1)
+    driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
+    time.sleep(1)
 
-        driver.execute_script("arguments[0].click();", element)
+    element = driver.find_element_by_xpath(data_switcher(bundle))
 
-        # filling recipient numbers and confirmation process
+    driver.execute_script("arguments[0].click();", element)
 
-        time.sleep(2)
-        driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-        time.sleep(2)
-        driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
+    # filling recipient numbers and confirmation process
 
-        time.sleep(5)  # confirm button
-        driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
-    except:
-        print("failed to send")
+    time.sleep(2)
+    driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
+    time.sleep(2)
+    driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
+
+    time.sleep(5)  # confirm button
+    driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+  except:
+    print("failed to send")
 
 
 def countdown():
-    '''This function counts down after 5mins and click the website inorder to prevent it from logging out'''
-    print("here")
-    driver.find_element_by_xpath(
-        '//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  # element it clicks
+  '''This function counts down after 5mins and click the website inorder to prevent it from logging out'''
+  print("here")
+  driver.find_element_by_xpath(
+    '//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  # element it clicks
 
 
 # PLEASE NOTE: For the sake of this script, user variables are pre-defined
 
+def refreshes():
+  body = driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+  print(driver.get_cookies())
+
+  driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+  driver2.add_cookie(driver.get_cookies())
+
+  driver2.get("https://mymtn.com.ng/buybundles")
+  time.sleep(2.5)
+
+
+  print(driver2.get_cookies())
+
+  driver2.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
+  time.sleep(0.5)
+
+  print(body)
+
+
 
 def data_switcher(bundle):
-    switcher = {
-        "MTN-1GB": '"mat-radio-13"',
-        "MTN-2GB": '"mat-radio-14"',
-        "MTN-3GB": '"mat-radio-15"',
-        "MTN-5GB": '"mat-radio-16"'
-    }
+  switcher = {
+    "MTN-1GB": '"mat-radio-13"',
+    "MTN-2GB": '"mat-radio-14"',
+    "MTN-3GB": '"mat-radio-15"',
+    "MTN-5GB": '"mat-radio-16"'
+  }
 
-    return '//*[@id={data_string}]/label/div[1]'.format(data_string=switcher[bundle])
+  return '//*[@id={data_string}]/label/div[1]'.format(data_string=switcher[bundle])
 
 
 def sendWebhook(url, data):
-    requests.post(url, data=json.dumps(data))
+  requests.post(url, data=json.dumps(data))
 
 
 def setInterval(func, minutes):
-    e = threading.Event()
-    while not e.wait(minutes):
-        func()
+  e = threading.Event()
+  while not e.wait(minutes):
+    func()
