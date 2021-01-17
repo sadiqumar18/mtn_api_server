@@ -116,22 +116,16 @@ def countdown():
 # PLEASE NOTE: For the sake of this script, user variables are pre-defined
 
 def refreshes():
-  body = driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-  print(driver.get_cookies())
+  # driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
+  driver.find_element_by_xpath(
+    '//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  # element it clicks
 
-  driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+  # driver.switch_to.window(driver.window_handles[0])
 
-  driver2.add_cookie(driver.get_cookies())
 
-  driver2.get("https://mymtn.com.ng/buybundles")
-  time.sleep(2.5)
 
-  print(driver2.get_cookies())
 
-  driver2.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
-  time.sleep(0.5)
 
-  print(body)
 
 
 def data_switcher(bundle):
