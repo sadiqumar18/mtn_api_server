@@ -42,8 +42,6 @@ def login(number):
 def subscribe(name, number, bundle, reference):
   """ Goes straight to the buybundles page """
 
-
-
   try:
     driver.get("https://mymtn.com.ng/buybundles")
     time.sleep(2.5)
@@ -81,13 +79,34 @@ def subscribe(name, number, bundle, reference):
 
     time.sleep(2)
     driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-    time.sleep(2)
+    time.sleep(5)
     driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
     time.sleep(5)  # confirm button
     driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+
+    try:
+      time.sleep(0.3)
+      print(driver.find_element_by_xpath('//div[@class="progress regularfont"]/div[1]'))
+      print(driver.find_elements_by_class_name("div.progress-bar-failure"))
+      data = {"success": "fail", "number": number, "reference": reference}
+      t = threading.Thread(target=sendWebhook, args=(data))
+      t.start()
+    except:
+      data = {"success": "success", "number": number, "reference": reference}
+      t = threading.Thread(target=sendWebhook, args=(data))
+      t.start()
+      print("succseeful")
+
+    sendWebhook("https://zealvend.com/api/python_server",
+      {"status": "success", "number": number, "reference": reference}
+    )
+
   except:
     print("failed to send")
+    sendWebhook("https://zealvend.com/api/python_server",
+      {"status": "failed", "number": number, "reference": reference}
+    )
 
 
 def countdown():
@@ -110,7 +129,6 @@ def refreshes():
   driver2.get("https://mymtn.com.ng/buybundles")
   time.sleep(2.5)
 
-
   print(driver2.get_cookies())
 
   driver2.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
@@ -119,9 +137,9 @@ def refreshes():
   print(body)
 
 
-
 def data_switcher(bundle):
   switcher = {
+    "MTN-500MB": "mat-radio-12",
     "MTN-1GB": '"mat-radio-13"',
     "MTN-2GB": '"mat-radio-14"',
     "MTN-3GB": '"mat-radio-15"',
@@ -132,7 +150,7 @@ def data_switcher(bundle):
 
 
 def sendWebhook(url, data):
-  requests.post(url, data=json.dumps(data))
+  requests.post(url, data=json.dumps(data), headers={"content-type": "application/json"})
 
 
 def setInterval(func, minutes):
