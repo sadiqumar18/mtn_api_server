@@ -79,28 +79,25 @@ def subscribe(name, number, bundle, reference):
 
     time.sleep(2)
     driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-    time.sleep(5)
+    time.sleep(2)
     driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
     time.sleep(5)  # confirm button
     driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
     try:
-      time.sleep(0.3)
-      print(driver.find_element_by_xpath('//div[@class="progress regularfont"]/div[1]'))
-      print(driver.find_elements_by_class_name("div.progress-bar-failure"))
-      data = {"success": "fail", "number": number, "reference": reference}
-      t = threading.Thread(target=sendWebhook, args=(data))
-      t.start()
-    except:
-      data = {"success": "success", "number": number, "reference": reference}
-      t = threading.Thread(target=sendWebhook, args=(data))
-      t.start()
-      print("succseeful")
+     time.sleep(0.3)
+     print(driver.find_element_by_xpath('//div[@class="progress regularfont"]/div[1]'))
+     print(driver.find_elements_by_class_name("div.progress-bar-success"))
+     sendWebhook("https://zealvend.com/api/python_server",
+       {"status": "success", "number": number, "reference": reference}
+     )
 
-    sendWebhook("https://zealvend.com/api/python_server",
-      {"status": "success", "number": number, "reference": reference}
-    )
+    except:
+      sendWebhook("https://zealvend.com/api/python_server",
+        {"status": "fail", "number": number, "reference": reference}
+      )
+      print("failed")
 
   except:
     print("failed to send")
