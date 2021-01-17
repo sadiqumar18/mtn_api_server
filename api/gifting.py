@@ -117,9 +117,7 @@ def countdown():
 
 def refreshes():
   # driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-  driver.find_element_by_xpath(
-    '//*[@id="tat"]/app-buybundles/div/app-header/nav/div[1]/div/div/ul/li/a').click()  # element it clicks
-
+  driver.refresh();
   # driver.switch_to.window(driver.window_handles[0])
 
 
