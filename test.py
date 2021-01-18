@@ -1,43 +1,54 @@
 import json
 import threading
+import time
 
 import requests
-from redis import Redis
-from rq import Queue
+from apscheduler.schedulers.background import BackgroundScheduler
+
+data = {
+  "hello": "hi"
+}
 
 
-def setInterval(func, time):
-    e = threading.Event()
-    while not e.wait(time):
-        func()
+def someJob():
+  print("Every 10 seconds")
 
 
-def foo():
-    print("hello")
+# sched = BackgroundScheduler
+#
+#
+# job = sched.add_job(someJob, 'interval', minutes=1)
+# job.remove()
 
 
-def data_switcher(bundle, driver):
-    switcher = {
-        "MTN-1GB": '"mat-radio-13"',
-        "MTN-2GB": '"mat-radio-14"',
-        "MTN-3GB": '"mat-radio-15"',
-        "MTN-5GB": '"mat-radio-16"'
-    }
-
-    return '//*[@id={data_string}]/label/div[1]'.format(data_string=switcher[bundle])
+def job():
+  print("hello")
 
 
-def sendWebhook(url, data):
-    requests.post(url, data=json.dumps(data))
-
-def testQueue():
-    q = Queue(connection=Redis())
-
-    result = q.enqueue(sendWebhook,"https://enfx4226l3b9k.x.pipedream.net/")
+def printit():
+  print("hello")
+  t = threading.Timer(5.0, printit)
+  # t.daemon = True
+  t.start()
 
 
+from time import time, sleep
 
-# sendWebhook("https://enfx4226l3b9k.x.pipedream.net/", {"reference": "sadiqumar18"})
+while True:
+  sleep(60 - time() % 60)
+  print("hello")
+
+# while True:
+#   schedule.run_pending()
+#   time.sleep(1)
+#
+# schedule.every(10).seconds.do(job)
 
 
-testQueue()
+def send_webhook(url, data):
+  print("hello")
+  requests.post(url, data=json.dumps(data))
+
+
+# //send_webhook("https://enfx4226l3b9k.x.pipedream.net/", data)
+# //job()

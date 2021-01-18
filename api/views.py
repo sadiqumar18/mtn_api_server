@@ -7,24 +7,31 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 
-from .gifting import login, subscribe
+from .gifting import login, subscribe, refreshes
 
 
 @api_view(['GET'])
 def browser_login(request):
-    login(number="08165383806")
-    return JsonResponse({'message': 'successfully!'})
+  login(number="08165383806")
+  return JsonResponse({'message': 'successfully!'})
 
 
 @api_view(['post'])
 def cooperate_data(request):
-    json_body = json.loads(request.body)
-    x = threading.Thread(target=subscribe,
-                         args=(json_body["name"], json_body["number"], json_body["bundle"], json_body["reference"]))
-    x.start()
+  json_body = json.loads(request.body)
+  x = threading.Thread(target=subscribe,
+    args=(json_body["name"], json_body["number"], json_body["bundle"], json_body["reference"]))
+  x.start()
 
+  return JsonResponse({'message': 'successfully!'})
+
+
+@api_view(['GET'])
+def refresh(request):
+    x = threading.Thread(target=refreshes,)
+    x.start()
     return JsonResponse({'message': 'successfully!'})
 
 
 def hello(test):
-    print(test)
+  print(test)
