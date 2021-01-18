@@ -119,8 +119,12 @@ def refreshes():
   # driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
   # driver.refresh();
   # driver.switch_to.window(driver.window_handles[0])
-  element = driver.find_element_by_xpath("//a[text()='History']").click()
-  driver.execute_script("arguments[0].click();", element)
+  try:
+    element = driver.find_element_by_xpath("//a[text()='History']").click()
+    driver.execute_script("arguments[0].click();", element)
+  except:
+    print("failde to refresh")
+
 
 
 
