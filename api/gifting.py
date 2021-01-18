@@ -117,11 +117,9 @@ def countdown():
 
 def refreshes():
   # driver.find_element_by_css_selector('body').send_keys(Keys.PAGE_DOWN)
-  driver.refresh();
+  # driver.refresh();
   # driver.switch_to.window(driver.window_handles[0])
-
-
-
+  driver.find_element_by_xpath("//a[text()='History']").click()
 
 
 
