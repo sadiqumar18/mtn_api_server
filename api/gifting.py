@@ -132,7 +132,7 @@ def refreshes():
 
 def data_switcher(bundle):
   switcher = {
-    "MTN-500MB": "mat-radio-12",
+    "MTN-500MB": ''"mat-radio-12"'',
     "MTN-1GB": '"mat-radio-13"',
     "MTN-2GB": '"mat-radio-14"',
     "MTN-3GB": '"mat-radio-15"',
