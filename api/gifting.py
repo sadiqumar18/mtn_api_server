@@ -15,6 +15,8 @@ options.headless = False
 options.add_argument('--no-sandbox')
 # options.add_argument("--remote-debugging-port=9222")
 options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--blink-settings=imagesEnabled=false')
+
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
@@ -43,11 +45,11 @@ def subscribe(name, number, bundle, reference):
   """ Goes straight to the buybundles page """
 
   try:
-    driver.get("https://mymtn.com.ng/buybundles")
-    time.sleep(2.5)
+    driver.get("https://mymtn.com.ng/buybundles/sponsoredwebpass")
+    time.sleep(1)
 
-    driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
-    time.sleep(0.5)
+    # driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
+    # time.sleep(0.5)
 
   except:
     print("failed to load data bundle page")
@@ -56,20 +58,26 @@ def subscribe(name, number, bundle, reference):
 
   # getting the bundle
   try:
-    time.sleep(0.5)
-    driver.find_element_by_xpath("//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[1]/div/div/div/a[8]").click()
-    time.sleep(0.5)
 
-    # recipient name
     driver.find_element_by_xpath(
       "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
 
-    driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
-    time.sleep(4)
-    # validity for 30days
-    time.sleep(1)
-    driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
-    time.sleep(1)
+
+    #enter name
+    driver.find_element_by_xpath('//*[@id="mat-input-1"]').send_keys(name)
+    #validity
+    element1 = driver.find_element_by_xpath('//*[@id="mat-radio-5"]/label/div[1]').click()
+
+    # # recipient name
+    # driver.find_element_by_xpath(
+    #   "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
+    #
+    # driver.find_element_by_xpath('//*[@id="mat-input-2"]').send_keys(name)
+    # time.sleep(4)
+    # # validity for 30days
+    # time.sleep(1)
+    # driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
+    # time.sleep(1)
 
     element = driver.find_element_by_xpath(data_switcher(bundle))
 
@@ -77,18 +85,18 @@ def subscribe(name, number, bundle, reference):
 
     # filling recipient numbers and confirmation process
 
-    time.sleep(1)
+
     driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-    time.sleep(1)
+    time.sleep(7)
     driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
-    time.sleep(0.5)  # confirm button
+    time.sleep(0.2)  # confirm button
     driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
     try:
-     time.sleep(0.3)
-     print(driver.find_element_by_xpath('//div[@class="progress regularfont"]/div[1]'))
-     print(driver.find_elements_by_class_name("div.progress-bar-success"))
+     time.sleep(1)
+     response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
+     print(response.text)
      sendWebhook("https://zealvend.com/api/python_server",
        {"status": "success", "number": number, "reference": reference}
      )
@@ -97,7 +105,7 @@ def subscribe(name, number, bundle, reference):
       sendWebhook("https://zealvend.com/api/python_server",
         {"status": "fail", "number": number, "reference": reference}
       )
-      print("failed")
+      print("failed to get response")
 
   except:
     print("failed to send")
