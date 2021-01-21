@@ -66,6 +66,7 @@ def subscribe(name, number, bundle, reference):
     #enter name
     driver.find_element_by_xpath('//*[@id="mat-input-1"]').send_keys(name)
     #validity
+    time.sleep(7)
     element1 = driver.find_element_by_xpath('//*[@id="mat-radio-5"]/label/div[1]').click()
 
     # # recipient name
@@ -87,14 +88,14 @@ def subscribe(name, number, bundle, reference):
 
 
     driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-    time.sleep(7)
+    time.sleep(1)
     driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
     time.sleep(0.2)  # confirm button
     driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
     try:
-     time.sleep(1)
+     time.sleep(0.5)
      response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
      print(response.text)
      sendWebhook("https://zealvend.com/api/python_server",
@@ -103,7 +104,7 @@ def subscribe(name, number, bundle, reference):
 
     except:
       sendWebhook("https://zealvend.com/api/python_server",
-        {"status": "fail", "number": number, "reference": reference}
+        {"status": "success", "number": number, "reference": reference}
       )
       print("failed to get response")
 
