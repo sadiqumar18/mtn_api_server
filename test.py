@@ -52,3 +52,11 @@ def send_webhook(url, data):
 
 # //send_webhook("https://enfx4226l3b9k.x.pipedream.net/", data)
 # //job()
+
+def setInterval(func, minutes):
+  e = threading.Event()
+  while not e.wait(minutes):
+    func()
+
+
+setInterval(job,1)

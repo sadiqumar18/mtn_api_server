@@ -99,7 +99,7 @@ def subscribe(name, number, bundle, reference):
         driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
         try:
-            time.sleep(1)
+            time.sleep(2)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
             sendWebhook("https://zealvend.com/api/python_server",
                         {"status": "success", "number": number, "reference": reference, "message": response.text}
