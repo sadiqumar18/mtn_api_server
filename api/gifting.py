@@ -46,7 +46,7 @@ def subscribe(name, number, bundle, reference):
 
     try:
         driver.get("https://mymtn.com.ng/buybundles/sponsoredwebpass")
-        time.sleep(1)
+        time.sleep(2)
 
         # driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
         # time.sleep(0.5)
@@ -66,7 +66,7 @@ def subscribe(name, number, bundle, reference):
         driver.find_element_by_xpath('//*[@id="mat-input-1"]').send_keys(name)
         # validity
         try:
-            time.sleep(0.5)
+            time.sleep(3)
             driver.find_element_by_xpath('//*[@id="mat-radio-5"]/label/div[1]').click()
         except:
             print("unable to click validity")
@@ -82,7 +82,7 @@ def subscribe(name, number, bundle, reference):
         # driver.find_element_by_xpath('//*[@id="mat-radio-8"]/label/div[1]').click()
         # time.sleep(1)
         try:
-            time.sleep(0.5)
+            time.sleep(3)
             element = driver.find_element_by_xpath(data_switcher(bundle))
         except:
             print("unable to click bundle")
@@ -92,7 +92,7 @@ def subscribe(name, number, bundle, reference):
         # filling recipient numbers and confirmation process
 
         driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
-        time.sleep(7)
+        time.sleep(8)
         driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
 
         time.sleep(0.2)  # confirm button
