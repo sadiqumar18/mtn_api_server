@@ -13,7 +13,7 @@ import threading
 options = Options()
 options.headless = False
 options.add_argument('--no-sandbox')
-# options.add_argument("--remote-debugging-port=9222")
+options.add_argument("--incognito")
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--blink-settings=imagesEnabled=false')
 
