@@ -7,7 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 import threading
 
 options = Options()
@@ -17,8 +18,8 @@ options.add_argument("--incognito")
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--blink-settings=imagesEnabled=false')
 
-driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-
+# driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+driver = webdriver.Firefox(options=options,executable_path=r"./geckodriver.exe")
 
 # number would be collected from user input
 def login(number):
