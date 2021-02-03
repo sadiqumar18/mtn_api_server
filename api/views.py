@@ -7,7 +7,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 
-from .gifting import login, subscribe, refreshes
+from .gifting import login, subscribe, refreshes, subscribe_multiple
 
 
 @api_view(['GET'])
@@ -24,6 +24,24 @@ def cooperate_data(request):
   x.start()
 
   return JsonResponse({'message': 'successfully!'})
+
+
+@api_view(['post'])
+def cooperate_data_multiple(request):
+    json_body = json.loads(request.body)
+    print(json_body)
+    x = threading.Thread(target=subscribe_multiple,
+                         args=(json_body["name"],
+                               json_body["number"],
+                               json_body["bundle"],
+                               json_body["reference"],
+                               json_body["first"],
+                               json_body["last"]
+                               )
+                         )
+    x.start()
+
+    return JsonResponse({'message': 'successfully!'})
 
 
 @api_view(['GET'])

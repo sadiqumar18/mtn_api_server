@@ -19,7 +19,8 @@ options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--blink-settings=imagesEnabled=false')
 
 # driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-driver = webdriver.Firefox(options=options,executable_path=r"./geckodriver.exe")
+driver = webdriver.Firefox(options=options, executable_path=r"./geckodriver.exe")
+
 
 # number would be collected from user input
 def login(number):
@@ -102,21 +103,100 @@ def subscribe(name, number, bundle, reference):
         try:
             time.sleep(2)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
-            sendWebhook("https://zealvend.com/api/python_server",
+
+            print(response)
+            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
                         {"status": "success", "number": number, "reference": reference, "message": response.text}
                         )
 
         except:
-            sendWebhook("https://zealvend.com/api/python_server",
+            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
                         {"status": "success", "number": number, "reference": reference}
                         )
             print("failed to get response")
 
     except:
         print("failed to send")
-        sendWebhook("https://zealvend.com/api/python_server",
+        sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
                     {"status": "failed", "number": number, "reference": reference}
                     )
+
+
+def subscribe_multiple(name, number, bundle, reference, first, last):
+    """ Goes straight to the buybundles page """
+
+    print(first)
+
+    try:
+        driver.get("https://mymtn.com.ng/buybundles/sponsoredwebpass")
+        time.sleep(2)
+
+        # driver.find_element_by_xpath('//*[@id="wht-crv"]/div/div/app-buybundle-submenu/div[1]/div/ol/li[2]').click()
+        # time.sleep(0.5)
+
+    except:
+        print("failed to load data bundle page")
+
+    """ Chooses the cooperate data gifting plan and fills the receipient's details """
+
+    # getting the bundle
+    try:
+
+        driver.find_element_by_xpath(
+            "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
+
+        # enter name
+        driver.find_element_by_xpath('//*[@id="mat-input-1"]').send_keys(name)
+        # validity
+        try:
+            time.sleep(2)
+            driver.find_element_by_xpath('//*[@id="mat-radio-5"]/label/div[1]').click()
+        except:
+            print("unable to click validity")
+
+        try:
+            time.sleep(2)
+            element = driver.find_element_by_xpath(data_switcher(bundle))
+        except:
+            print("unable to click bundle")
+
+        driver.execute_script("arguments[0].click();", element)
+
+        # filling recipient numbers and confirmation process
+
+        driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
+        time.sleep(8)
+        driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
+
+        time.sleep(0.2)  # confirm button
+        driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+
+        try:
+            time.sleep(2)
+            response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
+
+            print(response.text)
+            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+                        {"status": "success", "number": number, "reference": reference, "message": response.text,
+                         "first": first, "last": last}
+                        )
+            print( {"status": "success", "number": number, "reference": reference, "message": response.text,
+                    "first": first, "last": last})
+
+        except:
+            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+                        {"status": "success", "number": number, "reference": reference, "message": response.text,
+                         "first": first, "last": last}
+                        )
+            print("failed to get response")
+
+    except:
+        print("failed to send")
+        sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+                    {"status": "success", "number": number, "reference": reference,
+                     "first": first, "last": last}
+                    )
+
 
 
 def countdown():
