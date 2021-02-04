@@ -103,21 +103,19 @@ def subscribe(name, number, bundle, reference):
         try:
             time.sleep(2)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
-
-            print(response)
-            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+            sendWebhook("https://zealvend.com/api/python_server",
                         {"status": "success", "number": number, "reference": reference, "message": response.text}
                         )
 
         except:
-            sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+            sendWebhook("https://zealvend.com/api/python_server",
                         {"status": "success", "number": number, "reference": reference}
                         )
             print("failed to get response")
 
     except:
         print("failed to send")
-        sendWebhook("https://enukdfy8j5mkh0a.m.pipedream.net",
+        sendWebhook("https://zealvend.com/api/python_server",
                     {"status": "failed", "number": number, "reference": reference}
                     )
 
