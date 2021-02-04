@@ -172,7 +172,7 @@ def subscribe_multiple(name, number, bundle, reference, first, last):
         driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
 
         try:
-            time.sleep(6)
+            time.sleep(10)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
             sendWebhook("https://zealvend.com/api/python_server2",
                         {"status": "success", "number": number, "reference": reference, "message": response.text,
