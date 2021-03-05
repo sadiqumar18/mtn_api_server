@@ -9,6 +9,7 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 # from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import Select
 import threading
 
 options = Options()
@@ -73,6 +74,15 @@ def subscribe(name, number, bundle, reference):
         except:
             print("unable to click validity")
 
+        try:
+            el = driver.find_element_by_id("traffic")
+            for option in el.find_elements_by_tag_name('option'):
+                print(option.text)
+                if option.text == "Internet/default option":
+                    option.click()
+        except:
+            print('unable to click dropdown')
+
         # # recipient name
         # driver.find_element_by_xpath(
         #   "//*[@id='wht-crv']/div/div/app-buybundle-submenu/div[2]/app-sponsoredwebpass/div/div[2]/div[2]").click()
@@ -95,10 +105,19 @@ def subscribe(name, number, bundle, reference):
 
         driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
         time.sleep(5)
-        driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
+        buttons = driver.find_elements_by_xpath("//*[contains(text(), 'Proceed')]")[0].click()
 
-        time.sleep(0.2)  # confirm button
-        driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+        # for btn in buttons:
+        #     btn.click()
+
+        print('about to click')
+
+        time.sleep(3)  # confirm button
+        print('about to click')
+
+        driver.find_elements_by_xpath("//*[contains(text(), 'Confirm')]")[1].click()
+
+
 
         try:
             time.sleep(2)
