@@ -122,19 +122,19 @@ def subscribe(name, number, bundle, reference):
         try:
             time.sleep(2)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
-            sendWebhook("https://zealvend.com/api/python_server",
+            sendWebhook("https://cip.com.ng/pythonserver",
                         {"status": "success", "number": number, "reference": reference, "message": response.text}
                         )
 
         except:
-            sendWebhook("https://zealvend.com/api/python_server",
+            sendWebhook("https://cip.com.ng/pythonserver",
                         {"status": "success", "number": number, "reference": reference}
                         )
             print("failed to get response")
 
     except:
         print("failed to send")
-        sendWebhook("https://zealvend.com/api/python_server",
+        sendWebhook("https://cip.com.ng/pythonserver",
                     {"status": "failed", "number": number, "reference": reference}
                     )
 
@@ -172,6 +172,15 @@ def subscribe_multiple(name, number, bundle, reference, first, last):
             print("unable to click validity")
 
         try:
+            el = driver.find_element_by_id("traffic")
+            for option in el.find_elements_by_tag_name('option'):
+                print(option.text)
+                if option.text == "Internet/default option":
+                    option.click()
+        except:
+            print('unable to click dropdown')
+
+        try:
             time.sleep(2)
             element = driver.find_element_by_xpath(data_switcher(bundle))
         except:
@@ -183,15 +192,15 @@ def subscribe_multiple(name, number, bundle, reference, first, last):
 
         driver.find_element_by_xpath('//*[@id="feedbackmsg"]').send_keys(number)
         time.sleep(8)
-        driver.find_element_by_xpath('//*[@id="shownxt"]/div[9]/app-mainbutton').click()
+        buttons = driver.find_elements_by_xpath("//*[contains(text(), 'Proceed')]")[0].click()
 
         time.sleep(0.2)  # confirm button
-        driver.find_element_by_xpath('//*[@id="tat"]/app-smesuccess/div/div[1]/div/div/div/app-mainbutton').click()
+        driver.find_elements_by_xpath("//*[contains(text(), 'Confirm')]")[1].click()
 
         try:
             time.sleep(10)
             response = driver.find_element_by_xpath('//*[@id="Grid"]/div[3]')
-            sendWebhook("https://zealvend.com/api/python_server2",
+            sendWebhook("https://enusc9wd9b94q.x.pipedream.net",
                         {"status": "success", "number": number, "reference": reference, "message": response.text,
                          "first": first, "last": last,"bundle":bundle}
                         )
@@ -199,7 +208,7 @@ def subscribe_multiple(name, number, bundle, reference, first, last):
                     "first": first, "last": last,"bundle":bundle})
 
         except:
-            sendWebhook("https://zealvend.com/api/python_server2",
+            sendWebhook("https://enusc9wd9b94q.x.pipedream.net",
                         {"status": "success", "number": number, "reference": reference, "message": response.text,
                          "first": first, "last": last,"bundle":bundle}
                         )
@@ -207,7 +216,7 @@ def subscribe_multiple(name, number, bundle, reference, first, last):
 
     except:
         print("failed to send")
-        sendWebhook("https://zealvend.com/api/python_server2",
+        sendWebhook("https://enusc9wd9b94q.x.pipedream.net",
                     {"status": "failed", "number": number, "reference": reference,
                      "first": first, "last": last,"bundle":bundle}
                     )
@@ -236,11 +245,11 @@ def refreshes():
 
 def data_switcher(bundle):
     switcher = {
-        "MTN-500MB": '"mat-radio-9"',
-        "MTN-1GB": '"mat-radio-10"',
-        "MTN-2GB": '"mat-radio-11"',
-        "MTN-3GB": '"mat-radio-12"',
-        "MTN-5GB": '"mat-radio-13"'
+        "500MB": '"mat-radio-9"',
+        "1GB": '"mat-radio-10"',
+        "2GB": '"mat-radio-11"',
+        "3GB": '"mat-radio-12"',
+        "5GB": '"mat-radio-13"'
     }
 
     print('//*[@id={data_string}]/label/div[1]'.format(data_string=switcher[bundle]))
